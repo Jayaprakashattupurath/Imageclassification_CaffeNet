@@ -1,0 +1,63 @@
+# CaffeNet Training Configuration
+
+# Model Configuration
+model:
+  num_classes: 1000  # Will be automatically set based on dataset
+  dropout: 0.5
+  input_size: 227
+
+# Dataset Configuration
+data:
+  data_dir: ./data
+  batch_size: 32
+  num_workers: 4
+  augmentation: true
+
+# Training Configuration
+training:
+  epochs: 50
+  learning_rate: 0.001
+  momentum: 0.9
+  weight_decay: 0.0005
+  
+  # Learning rate scheduler
+  scheduler:
+    type: step  # Options: step, plateau, none
+    step_size: 10  # For StepLR
+    gamma: 0.1  # For StepLR
+    patience: 5  # For ReduceLROnPlateau
+
+# Optimization
+optimizer:
+  type: sgd  # Options: sgd, adam, adamw
+  sgd:
+    momentum: 0.9
+    nesterov: false
+  adam:
+    betas: [0.9, 0.999]
+    eps: 1e-8
+
+# Checkpointing
+checkpoint:
+  save_dir: ./checkpoints
+  save_frequency: 5  # Save every N epochs
+  save_best_only: true
+
+# Inference
+inference:
+  checkpoint_path: ./checkpoints/best_model.pth
+  top_k: 5
+  batch_size: 1
+
+# Hardware
+hardware:
+  device: cuda  # Options: cuda, cpu
+  gpu_id: 0
+  mixed_precision: false
+
+# Logging
+logging:
+  log_dir: ./logs
+  tensorboard: true
+  print_frequency: 10  # Print every N batches
+
